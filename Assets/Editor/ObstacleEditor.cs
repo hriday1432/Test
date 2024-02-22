@@ -1,22 +1,48 @@
-//using UnityEditor;
-//using UnityEngine;
+using UnityEditor;
+using UnityEngine;
 
-//[CustomEditor(typeof(ObstacleEditor))]
-//public class ObstacleEditor : Editor
-//{
-//    public override void OnInspectorGUI()
-//    {
-//        base.OnInspectorGUI();
+[CustomEditor(typeof(ObstacleData))]
+public class ObstacleEditor : Editor
+{
+    private bool showGrid = true;
 
-//        ObstacleEditor toggleableBooleanData = (ObstacleEditor)target;
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
 
-//        GUILayout.Space(10);
+        ObstacleData obstacleData = (ObstacleData)target;
 
-//        if (GUILayout.Button("Toggle Value"))
-//        {
-//            toggleableBooleanData.ToggleValue();
-//            EditorUtility.SetDirty(toggleableBooleanData);
-//        }
-//    }
-//}
+        EditorGUILayout.Space();
 
+        showGrid = EditorGUILayout.Toggle("Show Grid", showGrid);
+
+        if (showGrid)
+        {
+            DrawGrid(obstacleData);
+        }
+    }
+
+    private void DrawGrid(ObstacleData obstacleData)
+    {
+        GUILayout.BeginHorizontal();
+
+        for (int y = 0; y < 10; y++)
+        {
+            GUILayout.BeginVertical();
+
+            for (int x = 0; x < 10; x++)
+            {
+                EditorGUI.BeginChangeCheck();
+                bool isObstacle = GUILayout.Toggle(obstacleData.obstacleGrid[x, y], GUIContent.none, "Button", GUILayout.Width(20), GUILayout.Height(20));
+                if (EditorGUI.EndChangeCheck())
+                {
+                    obstacleData.obstacleGrid[x, y] = isObstacle;
+                }
+            }
+
+            GUILayout.EndVertical();
+        }
+
+        GUILayout.EndHorizontal();
+    }
+}

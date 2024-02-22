@@ -16,7 +16,6 @@ public class GridGenerator : MonoBehaviour
     private void Awake()
     {
         CreateGrid();
-        GenerateObstacles();
     }
 
     public Node GetNode(Vector2Int coordinates)
@@ -77,21 +76,6 @@ public class GridGenerator : MonoBehaviour
                 GameObject cube = Instantiate(cubePrefab, position, Quaternion.identity);
                 cube.GetComponent<TileInfo>().cords = new Vector2Int(x, z);
                 grid.Add(cords, new Node(cords, true));
-            }
-        }
-    }
-    private void GenerateObstacles()
-    {
-        for (int x = 0; x < 3; x++)
-        {
-            for (int z = 0; z < 3; z++)
-            {
-                int a = Random.Range(0, 9);
-                int b = Random.Range(0, 9);
-                Vector2Int cords = new Vector2Int(a, b);
-                Vector3 position = new Vector3(a * tileSize, 0.5f, b * tileSize);
-                GameObject obstacle = Instantiate(obstaclePrefab, position, Quaternion.identity);
-                BlockNode(cords);
             }
         }
     }

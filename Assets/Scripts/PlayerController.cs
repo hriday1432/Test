@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] Transform player;
 
+    [SerializeField] LayerMask ground;
+
     bool isMoving = false;
 
     List<Node> path = new List<Node>();
@@ -27,7 +29,7 @@ public class PlayerController : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
-                bool hasHit = Physics.Raycast(ray, out hit);
+                bool hasHit = Physics.Raycast(ray, out hit,Mathf.Infinity,ground);
 
 
 
